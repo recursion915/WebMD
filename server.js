@@ -29,17 +29,18 @@ app.post('/update_user', function(req,res){
 app.get('/get_user',function(req,res){
   // var postBody = req.body;
 
-  var user_id = req.params[0];
+  var user_id = req.body.user_id;
   console.log(user_id);
   var file_name = './user_file/' + user_id + ".json";
   console.log(file_name);
-  fs.readFile(file_name, (err, data) => {
+  fs.readFile(file_name, 'utf8',function (err, data)  {
     if (err) throw err;
-    console.log(data);
+    var obj = JSON.parse(data);
+    console.log(obj);
     res.setHeader('Content-Type', 'application/json');
-    res.send(JSON.stringify(data));
+    res.send(JSON.stringify(obj));
   });
-
+  return;
 });
 
 var server = app.listen(3000, function () {
